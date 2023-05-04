@@ -68,6 +68,20 @@ double* make_range(double start, double end, double step, int start_inclusive, i
     return (double*) NULL;
 }
 
+/**
+ * @brief           Function to convert a 1D static array to a 1D dynamic array
+ * 
+ * @param len       Length of the  vector
+ * @param vec       Static array
+ * @return double* 
+ */
+double* copy_static_to_dynamic_array_1D(const long len, double vec[len]){
+    double* ret = calloc(len, sizeof(*ret));
+    for(long i = 0; i < len; i++){
+        ret[i] = vec[i];
+    }
+    return ret;
+}
 
 /**
  * @brief               Function to Copy the contents of a static array to a dynamic array
@@ -77,7 +91,7 @@ double* make_range(double start, double end, double step, int start_inclusive, i
  * @param static_array  Static 2D array
  * @return double**
  */
-double** copy_static_to_dynamic_array(const long row_len, const long col_len, double static_array[row_len][col_len]){
+double** copy_static_to_dynamic_array_2D(const long row_len, const long col_len, double static_array[row_len][col_len]){
     // Define a 2D array
     double** ret = calloc(row_len, sizeof(*ret));
     for(long i = 0; i < row_len; i++){
@@ -140,7 +154,9 @@ double** expand_on_axis(double* vec, long len){
     double** res = calloc(1, sizeof(*res));
     *res = calloc(len, sizeof(**res));
     // copy the contents of the vector to the matrix
-    memcpy(*((void**)res), (void*)vec, (size_t)len);
+    for(long i = 0; i < len; i++){
+        res[0][i] = vec[i];
+    }
     return res;
 }
 
@@ -167,4 +183,32 @@ double** transpose_mat(double** mat, long row_len, long col_len){
     }
     // return the transposed matrix
     return ret;
+}
+
+/**
+ * @brief               Print  contents of a 1D matrix
+ * 
+ * @param mat           1D matrix
+ * @param len           Number of items in matrix
+ */
+void print_1D_matrix(double* mat, long len){
+    for(long i = 0; i < len; i++){
+        printf("%f\t", mat[i]);
+    }
+    printf("\n");
+}
+
+
+/**
+ * @brief               Print contents of a 2D matrix
+ *
+ * @param mat           2D matrix
+ * @param row_len       Number of rows of 2D matrix
+ * @param col_len       Number of cols of 2D matrix
+ */
+void print_2D_matrix(double** mat, long row_len, long col_len){
+    for(long i = 0; i < row_len; i++){
+        print_1D_matrix(mat[i], col_len);
+    }
+    printf("\n");
 }

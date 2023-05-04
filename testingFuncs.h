@@ -19,3 +19,5 @@ void test_matrix_mult_2D_func();
 void test_flatten_function();
 void test_sigmoid_func();
 void test_make_range_func(double start, double end, double step, int start_inclusive, int end_inclusive);
+void test_expand_on_axis_func();
+void test_matrix_transpose();

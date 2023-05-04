@@ -220,8 +220,8 @@ void test_matrix_mult_2D_func(){
                                             {9,10},
                                             {11,12}};
     // Copy the static arrays to the dynamic array
-    double** in_1 = copy_static_to_dynamic_array(row_1, col_1, static_in_1);
-    double** in_2 = copy_static_to_dynamic_array(row_2, col_2, static_in_2);
+    double** in_1 = copy_static_to_dynamic_array_2D(row_1, col_1, static_in_1);
+    double** in_2 = copy_static_to_dynamic_array_2D(row_2, col_2, static_in_2);
 
     // Compute the result of the matrix multiplication
     double** res = matrixMult_2D_to_2D(in_1, in_2, row_1, row_2, col_1, col_2);
@@ -243,7 +243,7 @@ void test_flatten_function(){
     const int   row_1 = 1,
                 col_1 = 3;
     double static_in_1[row_1][col_1] =  {   {1,2,3} };
-    double** in_1 = copy_static_to_dynamic_array(row_1, col_1, static_in_1);
+    double** in_1 = copy_static_to_dynamic_array_2D(row_1, col_1, static_in_1);
 
     // flatten the function
     double* res = flatten(in_1, col_1);
@@ -324,6 +324,51 @@ void test_sigmoid_func(){
     }
     printf("\n");
     return;
+}
+
+
+void test_expand_on_axis_func(){
+    long len = (10-0)+1;
+    double* range = make_range(0,10, 1,1,1);
+    printf("Vector to be expanded:\n");
+    for(long i = 0; i < len; i++){
+        printf("%f\t", range[i]);
+    }
+    printf("\n");
+    double **range_expanded = expand_on_axis(range, len);
+    // Expanded values
+    printf("Expanded vector:n\n");
+    for(long i = 0; i < len; i++){
+        printf("%f\t", range_expanded[0][i]);
+    }
+}
+
+
+void test_matrix_transpose(){
+    long    row_size = 1,
+            col_size = 11;
+    double **mat = calloc(row_size, sizeof(*mat));
+    for(long i = 0; i < row_size; i++){
+        mat[i] = calloc(col_size, sizeof(*(mat[i])));
+        mat[i] = make_range(0,10,1,1,1);
+    }
+    // Elements of the primary matrix
+    printf("Original matrix: \n");
+    for(long i = 0; i < row_size; i++){
+        for(long j = 0; j < col_size; j++){
+            printf("%f\t", mat[i][j]);
+        }
+        printf("\n");
+    }
+
+    double **mat_T = transpose_mat(mat, row_size, col_size);
+    printf("Transposed matrix: \n");
+    for(long i = 0; i < col_size; i++){
+        for(long j = 0; j < row_size; j++){
+            printf("%f\t", mat_T[i][j]);
+        }
+        printf("\n");
+    }
 }
 
 #endif
